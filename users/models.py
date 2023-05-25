@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-from users.constants import PASSPORT_SERIE
+from users.constants import PASSPORT_SERIE, ROLES
 from users.managers import UserProfileManager
 
 
@@ -57,13 +57,26 @@ class UserProfile(AbstractUser):
 
 
 class Client(models.Model):
-    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='client')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='client', null=False)
     work_place = models.CharField(max_length=100, null=True, blank=True)
     user_info = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'clients'
         verbose_name_plural = 'client'
+
+    def __str__(self):
+        return self.user.username
+
+
+class Employee(models.Model):
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='employee', null=False)
+    role = models.CharField(choices=ROLES, max_length=8, blank=False, null=False, default='manager')
+    notes = models.TextField()
+
+    class Meta:
+        verbose_name = 'employees'
+        verbose_name_plural = 'employee'
 
     def __str__(self):
         return self.user.username

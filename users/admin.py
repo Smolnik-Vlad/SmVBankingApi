@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from users.models import UserProfile, Client
+from users.models import UserProfile, Client, Employee
 
 
 # Register your models here.
@@ -9,13 +9,17 @@ class CommonUserAdmin(admin.ModelAdmin):
     empty_value_display = "undefined"
 
 
-
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'work_place')
     list_editable = ('work_place',)
     empty_value_display = "undefined"
 
 
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'role')
+    empty_value_display = "undefined"
+
 
 admin.site.register(UserProfile, CommonUserAdmin)
 admin.site.register(Client, ClientAdmin)
+admin.site.register(Employee, EmployeeAdmin)

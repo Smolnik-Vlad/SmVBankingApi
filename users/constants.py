@@ -7,3 +7,8 @@ PASSPORT_SERIE = [
     ('БР', 'БР'),
     ('МН', 'МН'),
 ]
+
+ROLES = [
+    ('director', 'director'),
+    ('manager', 'manager'),
+]
