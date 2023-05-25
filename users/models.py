@@ -31,22 +31,6 @@ class UserProfile(AbstractUser):
         self.username = slugify(slug_data)
         return super().save(*args, **kwargs)
 
-    # groups = models.ManyToManyField(
-    #     'auth.Group',
-    #     related_name='common_users',
-    #     verbose_name='groups',
-    #     blank=True,
-    #     help_text='The groups this user belongs to.',
-    #     related_query_name='common_user'
-    # )
-    # user_permissions = models.ManyToManyField(
-    #     'auth.Permission',
-    #     related_name='common_users',
-    #     verbose_name='user permissions',
-    #     blank=True,
-    #     help_text='Specific permissions for this user.',
-    #     related_query_name='common_user'
-    # )
 
     def __str__(self):
         return self.username
@@ -58,8 +42,10 @@ class UserProfile(AbstractUser):
 
 class Client(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='client', null=False)
+    username = models.SlugField(max_length=30, null=True, blank=True, default=None, unique=False)
     work_place = models.CharField(max_length=100, null=True, blank=True)
     user_info = models.TextField(null=True, blank=True)
+
 
     class Meta:
         verbose_name = 'clients'
@@ -67,6 +53,10 @@ class Client(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        self.username = self.user.username
+        return super().save(*args, **kwargs)
 
 
 class Employee(models.Model):

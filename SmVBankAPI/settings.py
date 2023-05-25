@@ -46,6 +46,8 @@ INSTALLED_APPS = [
 
     # 3st party application
     'rest_framework',
+    'djoser',
+    'rest_framework.authtoken',
 
 ]
 AUTH_USER_MODEL = 'users.UserProfile'
@@ -75,6 +77,18 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.SessionAuthentication',
 
     ]
+}
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',  # url for activation
+    'SEND_ACTIVATION_EMAIL': False,
+    'SERIALIZERS': {
+        'user': 'users.serializers.UserProfileSerializer',
+        'current_user': 'users.serializers.CommonUserSerializer',
+    }
+
 }
 
 MIDDLEWARE = [
